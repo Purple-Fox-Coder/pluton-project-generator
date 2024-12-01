@@ -4,7 +4,7 @@
 A simple command line project generator to make the files I make every time I
 make a project.
 
-##### Running
+##### Running / use
 
 To use it simply use the following command in the directory you wish to generate
 in:  
@@ -12,6 +12,13 @@ in:
 
 alternatively you can pass in the path to the project:  
 ``ppg <directory>``
+
+If you want to add more default files or modify how a specific file is generated
+you can modify or add files into the templates directory
+
+template variables (replaced with actual values):  
+``$$PROJECT_NAME$$`` - the name of the project  
+``$$PROJECT_ALIAS$$`` - the alias for the project (the name used for filenames)
 
 ##### Building
 
