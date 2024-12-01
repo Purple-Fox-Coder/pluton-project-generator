@@ -25,8 +25,13 @@ void findAndReplace(const string &p_findString, const string &p_replaceString,
 
 int main(int p_argCount, char const *p_argValues[]) {
 
+  const char* home = getenv("HOME");
+  if (home == nullptr) {
+    home = getenv("USERPROFILE");
+  }
+
   path l_workingDirectory = path(current_path());
-  path l_templateDirectory = path("./templates");
+  path l_templateDirectory = path(home) / path("ppg/templates");
   string l_name = "ppgProject";
   string l_alias = "main";
 

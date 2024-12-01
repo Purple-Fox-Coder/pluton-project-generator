@@ -14,3 +14,6 @@ $(bin)/ppg.o: ppg.cpp | $(bin)
 
 $(bin):
 	mkdir $(bin)
+
+clean:
+	rm $(bin) -r
