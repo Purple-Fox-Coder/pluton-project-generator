@@ -4,6 +4,22 @@
 A simple command line project generator to make the files I make every time I
 make a project.
 
+##### Installing
+
+You will need g++ and make installed to install through a build.  After
+installing those you will need to download the latest release and run the
+install script.  You may then safely delete the downloaded folder and its
+contents.
+
+*Linux:*  
+For linux, you will be running ``installLinux.sh``  
+Of note, the install path may need to differ depending on the distro, so the
+install script was built with ArchLinux in mind (And distros built on it).  
+
+*Windows:*  
+Windows does not yet have an install script, but you should be able to build it
+manually if you want.
+
 ##### Running / use
 
 To use it simply use the following command in the directory you wish to generate
