@@ -20,6 +20,12 @@ template variables (replaced with actual values):
 ``$$PROJECT_NAME$$`` - the name of the project  
 ``$$PROJECT_ALIAS$$`` - the alias for the project (the name used for filenames)
 
+to use these in filenames simply include in your filename the variable
+(excluding the $$)  
+I.E.:   
+``PROJECT_NAME.cpp``   
+``somethingPROJECT_NAMEsomethingelse.h``
+
 ##### Building
 
 To build the project you will need C++ and make.  Once you have those you can
