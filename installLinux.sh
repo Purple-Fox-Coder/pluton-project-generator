@@ -5,7 +5,7 @@ PROGRAM_NAME="ppg"
 SOURCE_FILE="ppg.cpp"
 EXECUTABLE_PATH="/usr/bin/$PROGRAM_NAME"
 INITIAL_TEMPLATES_DIR="./templates"
-USER_TEMPLATES_DIR="$HOME/ppg/templates"
+USER_TEMPLATES_DIR="$HOME/ppg/"
 
 if ! command -v g++ &> /dev/null; then
   echo "g++ could not be found.  Please install g++ to proceed."
@@ -53,7 +53,7 @@ if [ -d "$INITIAL_TEMPLATES_DIR" ]; then
 else
   echo "Templates folder not found, creating $USER_TEMPLATES_DIR..."
 
-  mkdir -p "$USER_TEMPLATES_DIR"
+  mkdir -p "$USER_TEMPLATES_DIR/templates"
 
   if [ $? -eq 0 ]; then
     echo "Created $USER_TEMPLATES_DIR successfully."
