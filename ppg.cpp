@@ -13,12 +13,16 @@ using std::cout;
 using std::endl;
 using std::cin;
 
+static const string s_versionNumber = "0.1.0";
+
+void displayHelpMessage();
+
 int main(int p_argCount, char const *p_argValues[]) {
 
   path l_workingDirectory = path(current_path());
   path l_templateDirectory = path("./templates");
   string l_name = "ppgProject";
-  string l_alias = "plproj";
+  string l_alias = "main";
 
   // get information from the arguments
   if (p_argCount > 1) {
@@ -50,12 +54,20 @@ int main(int p_argCount, char const *p_argValues[]) {
       }
       if("-n" == string(p_argValues[i])) {
         l_name = string(p_argValues[i + 1]);
-        l_alias = l_alias == "plproj" ? l_name : l_alias;
+        l_alias = l_alias == "main" ? l_name : l_alias;
         i++;
       }
       if("-a" == string(p_argValues[i])) {
         l_alias = string(p_argValues[i + 1]);
         i++;
+      }
+      if("-h" == string(p_argValues[i])) {
+        displayHelpMessage();
+        return 0;
+      }
+      if("-v" == string(p_argValues[i])) {
+        cout << "PPG version: " << s_versionNumber << endl;
+        return 0;
       }
     }
   }
@@ -93,9 +105,25 @@ int main(int p_argCount, char const *p_argValues[]) {
   }
 
   if (l_answer == "n" || l_answer == "N") {
-    cout << "Please re-enter command with corrections" << endl;
+    cout << "Please re-enter command with corrections, for help use: ppg -h" << endl;
     return 0;
   }
 
+  // create project
+
   return 0;
+}
+
+void displayHelpMessage() {
+  cout <<
+    "PPG version: " << s_versionNumber << endl <<
+    endl <<
+    "USAGE: ppg <directory to make project> <PARAMETERS>" << endl <<
+    endl <<
+    "PARAMETERS:" << endl <<
+    "-t" << "  " << "Sets the template directory (-t <DIRECTORY>)" << endl <<
+    "-n" << "  " << "Sets the project name (-n <NAME>)" << endl <<
+    "-a" << "  " << "Sets the project alias (-a <ALIAS>)" << endl <<
+    "-h" << "  " << "Displays this message" << endl <<
+    "-v" << "  " << "Displays the version number" << endl;
 }

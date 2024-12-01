@@ -7,7 +7,7 @@ vers = -std=c++23
 link = $(vers) -Wall -c
 
 all: $(ofiles) | $(bin)
-	g++ $(ofiles) -o $(bin)/ppg.exe
+	g++ $(ofiles) -o $(bin)/ppg
 
 $(bin)/ppg.o: ppg.cpp | $(bin)
 	g++ $(link) ppg.cpp -o $(bin)/ppg.o
