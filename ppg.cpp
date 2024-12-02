@@ -126,7 +126,7 @@ int main(int p_argCount, char const *p_argValues[]) {
     if(is_regular_file(i_file)) {
 
       string l_fileName =
-        string(i_file).substr(string(i_file).find_last_of("/\\") + 1);
+        i_file.string().substr(i_file.string().find_last_of("/\\") + 1);
 
       findAndReplace("PROJECT_NAME", l_name, l_fileName);
       findAndReplace("PROJECT_ALIAS", l_alias, l_fileName);
