@@ -44,6 +44,6 @@ I.E.:
 
 ##### Building
 
-To build the project you will need C++ and make.  Once you have those you can
+To build the project you will need g++ and make.  Once you have those you can
 simply use:   
 ``make``
