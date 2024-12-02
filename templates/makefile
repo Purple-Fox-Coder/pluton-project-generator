@@ -21,10 +21,13 @@ compTags = $(compSettings) $(link)
 all: $(bin)/$(exe) | $(bin)
 
 $(bin)/$(exe): $(ofiles) | $(bin)
-	g++ $(ofiles) -o $(bin)/$(exe)
+	g++ $(ofiles) -o $(bin)/$(executable)
 
 $(bin)/$$PROJECT_ALIAS$$.o: $$PROJECT_ALIAS$$.cpp | $(bin)
 	g++ $(compTags) -c $$PROJECT_ALIAS$$.cpp -o $(bin)/$$PROJECT_ALIAS$$.o
+
+$(bin):
+	mkdir $(bin)
 
 clean:
 	rm $(bin) -r
