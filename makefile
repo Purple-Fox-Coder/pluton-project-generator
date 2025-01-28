@@ -1,19 +1,90 @@
-# general settings
-bin = bin
-ofiles = $(bin)/ppg.o
+# Author:  	Philip Zingmark
+# GitHub:  	https://github.com/Phillezi
+# Desc:		A simple Makefile template to build c programs with gcc
 
-# linker settings
-vers = -std=c++23
-link = $(vers) -Wall -c
+CC=clang
+CFLAGS=-Wall -Wpedantic -Werror
+LIBFLAGS=# Add your library specific flags here
+DEBUG_CFLAGS=-fsanitize=address
+RELEASE_CFLAGS=-O3
 
-all: $(ofiles) | $(bin)
-	g++ $(ofiles) -o $(bin)/ppg
+SRC_DIR=././
+OUT_DIR=./bin/
+TARGET=main
+EXECUTABLE=ppg
 
-$(bin)/ppg.o: ppg.cpp | $(bin)
-	g++ $(link) ppg.cpp -o $(bin)/ppg.o
+ifeq ($(OS), Windows_NT)
+    # Windows specific
+    BIN_EXT =.exe
+    MKDIR = powershell -Command "if (!(Test-Path -Path $(OUT_DIR) -PathType Container)) { New-Item -ItemType Directory -Path $(OUT_DIR) > $$null }; if (!(Test-Path -Path $(dir $@) -PathType Container)) { New-Item -ItemType Directory -Path $(dir $@) > $$null }"
+    RM = del /Q
+else
+    # Other OS (meant for Unix based os (OS X and Linux))
+    BIN_EXT =.bin
+    MKDIR = mkdir -p $(OUT_DIR) $(dir $@)
+    RM = rm -rf
+endif
 
-$(bin):
-	mkdir $(bin)
+CFLAGS+=$(LIBFLAGS)
 
+# Check if the src directory exists, if not prompt the user to enter the name of their src dir
+ifeq ($(wildcard $(SRC_DIR)),)
+$(error Source directory '$(SRC_DIR)' not found. Please specify the source directory using 'make SRC_DIR=path/to/source' or edit the makefile)
+endif
+
+# Check if the target exist in the src directory, if not prompt the user to enter the name of their target
+ifeq ($(wildcard $(SRC_DIR)/$(TARGET).c),)
+$(error Target source file '$(TARGET).c' not found in $(SRC_DIR). Please specify the target file using 'make TARGET=target_file_name' or edit the makefile)
+endif
+
+SRC_FILES := $(wildcard $(SRC_DIR)/**/*.c) $(wildcard $(SRC_DIR)/*.c)
+
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(OUT_DIR)/%.o,$(SRC_FILES))
+
+DEP_FILES := $(OBJ_FILES:.o=.d)
+
+$(OUT_DIR)/%.o: $(SRC_DIR)/%.c
+	$(MKDIR)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+# Include auto-generated dependency files
+-include $(DEP_FILES)
+
+all: $(EXECUTABLE)
+
+# Target rules
+debug: CFLAGS += $(DEBUG_CFLAGS)
+debug: $(EXECUTABLE)
+
+release: CFLAGS += $(RELEASE_CFLAGS)
+release: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJ_FILES)
+	$(CC) -o $@$(BIN_EXT) $^ $(CFLAGS)
+
+.PHONY: clean
+
+# Help message
+define HELP_MESSAGE
+Usage: make [target]\n
+Targets:
+	all            - Build the main target (default).
+	debug          - Build the main target with debug symbols. Uses -g flag (default), this lets you use gdb to debug the executable.
+	clean          - Remove built files.
+	help           - Display this help message.\n\n
+endef
+export HELP_MESSAGE
+
+# Print help message
+help:
+	@echo "$$HELP_MESSAGE"
+
+# Clean the out dir and target executable
+ifeq ($(OS), Windows_NT)
 clean:
-	rm $(bin) -r
+	rmdir /s /q $(OUT_DIR)
+	$(RM) $(EXECUTABLE)$(BIN_EXT)
+else
+clean:
+	$(RM) $(OUT_DIR) $(EXECUTABLE)$(BIN_EXT)
+endif
